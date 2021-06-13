@@ -10,4 +10,6 @@ class Location < ApplicationRecord
   validates :zip_code, format: { with: /\A\d{8}\z/, message: I18n.t('errors.locations.zip_code.only_numbers') }
   validates :zip_code, length: { is: 8, message: I18n.t('errors.locations.zip_code.length') }
   validates :state, format: { with: /\A[A-Z]{2}\z/, message: I18n.t('errors.locations.state') }
+
+  has_many :ratings, dependent: :destroy
 end
