@@ -1,4 +1,4 @@
-# Class to handle registrations trough API
+# Class to handle registrations through API
 class RegistrationsController < Devise::RegistrationsController
   respond_to :json
 
