@@ -31,3 +31,13 @@
 
 en:
   hello: "Hello world"
+
+  errors:
+    locations:
+      street:
+        too_short: "Street name need to be at least 5 characters long"
+        too_long: "Street name need to be at most 50 characters long"
+      zip_code:
+        only_numbers: "Only use numbers for zip code"
+        length: "Zip codes should have 8 digits"
+      state: "Use the state's 2 characters abreviation"
