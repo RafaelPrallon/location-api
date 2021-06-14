@@ -12,4 +12,12 @@ class Location < ApplicationRecord
   validates :state, format: { with: /\A[A-Z]{2}\z/, message: I18n.t('errors.locations.state') }
 
   has_many :ratings, dependent: :destroy
+
+  geocoded_by :address
+
+  after_validation :geocode
+
+  def address
+    [street, number, city, state].compact.join(', ')
+  end
 end

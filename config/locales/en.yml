@@ -33,6 +33,7 @@ en:
   hello: "Hello world"
 
   errors:
+    unautorized: "You are not atorized to perform this action"
     locations:
       street:
         too_short: "Street name need to be at least 5 characters long"
@@ -41,3 +42,11 @@ en:
         only_numbers: "Only use numbers for zip code"
         length: "Zip codes should have 8 digits"
       state: "Use the state's 2 characters abreviation"
+  
+  locations:
+    removal:
+      success: "Location successfully removed"
+  
+  ratings:
+    removal:
+      success: "Rating successfully removed"
