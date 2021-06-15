@@ -8,4 +8,8 @@ It was made using Rails 6.1.3.2 and Ruby 3.0.0p0 and it uses:
 
 - [Geocoder](https://github.com/alexreisner/geocoder) for geolocalization
 
+- [Apipie](https://github.com/Apipie/apipie-rails) for api documentation
+
 - PostgreSQL as Database
+
+To read docummentation, use the /docs endpoint

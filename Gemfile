@@ -46,3 +46,6 @@ gem 'dotenv-rails', groups: %i[development test] # Caso você queira isolar vari
 
 # geocoder for geolocalization
 gem 'geocoder'
+
+# Apipie for documentation
+gem 'apipie-rails'

@@ -1,13 +1,22 @@
 class RatingsController < ApplicationController
+  resource_description do
+    short "Endpoints for methods related to a location's ratings"
+  end
   before_action :authenticate_user!
   before_action :find_location
   before_action :find_rating, only: %i[show update destroy]
 
+  api :GET, 'locations/:location_id/ratings', 'List all ratings of a given location'
   def index
     @ratings = @location.ratings
     render json: @ratings
   end
 
+  api :POST, 'locations/:location_id/ratings', 'Create a rating for a given location'
+  param :rating, Hash do
+    param :grade, :number, desc: 'Grade from 0 to 5', required: true
+    param :comment, String, desc: 'Comment', required: true
+  end
   def create
     @rating = Rating.new(rating_params)
     @rating.user = current_user
@@ -21,6 +30,7 @@ class RatingsController < ApplicationController
     end
   end
 
+  api :GET, 'locations/:location_id/ratings/:id'
   def show
     render json: @rating
   end
@@ -55,6 +65,6 @@ class RatingsController < ApplicationController
   end
 
   def rating_parrams
-    params.require(:ratings).permit(:grade, :comment)
+    params.require(:rating).permit(:grade, :comment)
   end
 end

@@ -1,7 +1,16 @@
 # Class to handle registrations through API
 class RegistrationsController < Devise::RegistrationsController
+  resource_description do
+    short "Endpoints for methods related to user's sign up"
+  end
   respond_to :json
 
+  api :POST, 'signup'
+  param :user, Hash do
+    param :email, String, required: true
+    param :username, String, required: true
+    param :password, String, required: true
+  end
   def create
     build_resource(sign_up_params)
 

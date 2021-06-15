@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  apipie
   resources :locations, only: %i[index create] do
     resources :ratings
   end
