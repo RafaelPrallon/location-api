@@ -39,8 +39,10 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
+# devise and devise jwt for authentication
 gem 'devise'
 gem 'devise-jwt'
 gem 'dotenv-rails', groups: %i[development test] # Caso você queira isolar variáveis de ambiente no projeto
 
+# geocoder for geolocalization
 gem 'geocoder'

@@ -4,7 +4,7 @@ Rails application of an locations API where an user can add locations, see those
 
 It was made using Rails 6.1.3.2 and Ruby 3.0.0p0 and it uses:
 
-- JWT for authentication through [devise jwt](https://github.com/waiting-for-dev/devise-jwt)
+- JWT for authentication through [devise](https://github.com/heartcombo/devise) and [devise jwt](https://github.com/waiting-for-dev/devise-jwt)
 
 - [Geocoder](https://github.com/alexreisner/geocoder) for geolocalization
 
