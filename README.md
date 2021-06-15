@@ -12,4 +12,5 @@ It was made using Rails 6.1.3.2 and Ruby 3.0.0p0 and it uses:
 
 - PostgreSQL as Database
 
+Link to it running on heroku: https://location-api-rpmx.herokuapp.com
 To read docummentation, use the /docs endpoint
