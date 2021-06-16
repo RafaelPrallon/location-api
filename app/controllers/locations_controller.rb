@@ -6,13 +6,54 @@ class LocationsController < ApplicationController
   before_action :find_location, only: %i[show update destroy]
   respond_to :json
 
+  def_param_group :location do
+    property :id, :number, desc: "location's id"
+    property :name, String, desc: "location's name"
+    property :street, String, desc: 'Street'
+    property :number, String, desc: 'Number'
+    property :complement, String, desc: 'Complement'
+    property :city, String, desc: 'City'
+    property :state, String, desc: 'State'
+    property :latitude, :decimal, desc: "Location's latitude"
+    property :longitude, :decimal, desc: "Location's longitude"
+  end
+
+  def_param_group :location_with_rating do
+    property :id, :number, desc: "location's id"
+    property :name, String, desc: "location's name"
+    property :street, String, desc: 'Street'
+    property :number, String, desc: 'Number'
+    property :complement, String, desc: 'Complement'
+    property :city, String, desc: 'City'
+    property :state, String, desc: 'State'
+    property :latitude, :decimal, desc: "Location's latitude"
+    property :longitude, :decimal, desc: "Location's longitude"
+    property :rating, :decimal, desc: "Average of location's rating"
+  end
+
+  def_param_group :location_with_distance do
+    property :id, :number, desc: "location's id"
+    property :name, String, desc: "location's name"
+    property :street, String, desc: 'Street'
+    property :number, String, desc: 'Number'
+    property :complement, String, desc: 'Complement'
+    property :city, String, desc: 'City'
+    property :state, String, desc: 'State'
+    property :latitude, :decimal, desc: "Location's latitude"
+    property :longitude, :decimal, desc: "Location's longitude"
+    property :rating, :decimal, desc: "Average of location's rating"
+    property :distance, :decimal, desc: 'Distance from provided location'
+  end
+
   api :GET, 'locations', 'list all locations by creation order'
+  returns array_of: :location_with_rating, code: 200, desc: 'All locations by creation'
   def index
     @locations = Location.all
     render json: @locations
   end
 
   api :POST, 'locations', 'create new location'
+  returns :location, code: 200, desc: "Location's info"
   param :location, Hash do
     param :name, String, required: true
     param :street, String, required: true
@@ -34,6 +75,7 @@ class LocationsController < ApplicationController
   end
 
   api :GET, 'locations/:id', 'show a registered location'
+  returns :location, code: 200, desc: "Location's info"
   def show; end
 
   # def update
@@ -52,10 +94,11 @@ class LocationsController < ApplicationController
   # end
 
   # distance is called at the list method in order to limit results
-  api :POST, 'locations/list', 'list all locations in a given distance of a privided location sorted by name'
+  api :POST, 'locations/list', 'list all locations in a given distance of a provided location sorted by name'
   param :latitude, :decimal, desc: 'Latitude', required: true
   param :longitude, :decimal, desc: 'Longitude', required: true
   param :distance, :number, desc: 'Distance in kilometers', required: true
+  returns :location_with_rating, code: 200, desc: "Location's info"
   def list
     @lat = params[:latitude].to_f
     @long = params[:longitude].to_f
@@ -63,10 +106,12 @@ class LocationsController < ApplicationController
     @locations = Location.near([@lat, @long], @dist, units: :km, order: :name)
   end
 
-  api :POST, 'locations/map', 'list all locations in a given distance of a privided location sorted by distance'
+  api :POST, 'locations/map',
+      'list all locations in a given distance of a provided location sorted by distance from provided place'
   param :latitude, :decimal, desc: 'Latitude', required: true
   param :longitude, :decimal, desc: 'Longitude', required: true
   param :distance, :number, desc: 'Distance in kilometers', required: true
+  returns array_of: :location_with_distance, desc: 'Detailed info of location with distance from provided place'
   def map
     @lat = params[:latitude].to_f
     @long = params[:longitude].to_f

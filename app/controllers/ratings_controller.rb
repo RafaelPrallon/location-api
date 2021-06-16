@@ -6,13 +6,22 @@ class RatingsController < ApplicationController
   before_action :find_location
   before_action :find_rating, only: %i[show update destroy]
 
+  def_param_group :rating do
+    property :id, :number, desc: 'ID'
+    property :grade, :decimal, desc: 'Grade'
+    property :comment, String, desc: 'Comment in rating'
+  end
+
   api :GET, 'locations/:location_id/ratings', 'List all ratings of a given location'
+  returns array_of: :rating, code: 200, desc: 'All ratings of a given location'
   def index
     @ratings = @location.ratings
     render json: @ratings
   end
 
   api :POST, 'locations/:location_id/ratings', 'Create a rating for a given location'
+  param_group :rating
+  returns :rating, code: 200, desc: "Rating's info"
   param :rating, Hash do
     param :grade, :number, desc: 'Grade from 0 to 5', required: true
     param :comment, String, desc: 'Comment', required: true
@@ -30,11 +39,18 @@ class RatingsController < ApplicationController
     end
   end
 
-  api :GET, 'locations/:location_id/ratings/:id'
+  api :GET, 'locations/:location_id/ratings/:id', 'show info on a specific rating'
+  returns :rating, code: 200, desc: "Rating's info"
   def show
     render json: @rating
   end
 
+  api :PATCH, 'locations/:location_id/ratings/:id', 'update a rating'
+  param :rating, Hash do
+    param :grade, :number, desc: 'Grade from 0 to 5', required: true
+    param :comment, String, desc: 'Comment', required: true
+  end
+  returns :rating, code: 200, desc: "Rating's info"
   def update
     if @rating.user == current_user
       if @rating.update(rating_params)
@@ -47,6 +63,7 @@ class RatingsController < ApplicationController
     end
   end
 
+  api :DELETE, 'locations/:location_id/ratings/:id', "delete's a rating"
   def destroy
     @rating.destroy!
     render json: I18n.t('ratings.removal.success')
